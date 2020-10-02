@@ -98,6 +98,15 @@
 			startup-delay-us = <100>;
 			enable-active-high;
 		};
+		
+		reg_bt: bt_regulator {
+			compatible = "regulator-fixed";
+			regulator-name = "BT_EN";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			gpio = <&gpio3 22 1>;
+			always-on;
+		};
 	};
 
 	sound {
