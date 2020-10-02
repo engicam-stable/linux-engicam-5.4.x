@@ -94,7 +94,7 @@
 			regulator-name = "WLAN_EN";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
-			gpio = <&gpio1 4 1>;
+			gpio = <&gpio3 23 1>;
 			startup-delay-us = <100>;
 			enable-active-high;
 		};
@@ -109,7 +109,7 @@
 		/*simple-audio-card,mclk-fs = <1>;*/
 		simple-audio-card,cpu {
 			sound-dai = <&sai3>;
-		};
+		}; 
 
 		dailink_master: simple-audio-card,codec {
 			sound-dai = <&sgtl5000>;
@@ -286,13 +286,13 @@
 	#size-cells = <0>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_laird>;
-	bus-width = <4>;	
-	no-1-8-v;
+	bus-width = <4>;
 	vmmc-supply = <&reg_sd2_vmmc>;
 	pm-ignore-notify;
 	keep-power-in-suspend;
 	non-removable;
 	status = "okay";
+	enable-sdio-wakeup;
 
 	brcmf: bcrmf@1 {
 		reg = <1>;
@@ -439,16 +439,16 @@
 	};	
 
 	sgtl5000: codec@a {
-			compatible = "fsl,sgtl5000";
-			status = "okay";
-			#sound-dai-cells = <0>;
-			reg = <0x0a>;
-			clocks = <&clk IMX8MM_CLK_SAI3>;
-			clock-names = "mclk";
-			assigned-clock-rates = <24576000>, <24576000>;                
-			VDDA-supply = <&reg_3v3_avdd_sgtl>;
-			VDDIO-supply = <&reg_3v3_sgtl>;
-			VDDD-supply = <&reg_1v8_sgtl>;
+		compatible = "fsl,sgtl5000";
+		status = "okay";
+		#sound-dai-cells = <0>;
+		reg = <0x0a>;
+		clocks = <&clk IMX8MM_CLK_SAI3>;
+		clock-names = "mclk";
+		assigned-clock-rates = <24576000>, <24576000>;
+		VDDA-supply = <&reg_3v3_avdd_sgtl>;
+		VDDIO-supply = <&reg_3v3_sgtl>;
+		VDDD-supply = <&reg_1v8_sgtl>;
 	};
 	
 	ov5640_mipi: ov5640_mipi@3c {
@@ -599,7 +599,8 @@
 
 		pinctrl_laird: lairdgrp {
 			fsl,pins = <
-				MX8MM_IOMUXC_GPIO1_IO04_GPIO1_IO4	0x19
+				MX8MM_IOMUXC_SAI5_RXD2_GPIO3_IO23        0x1C0
+				MX8MM_IOMUXC_SAI5_RXD1_GPIO3_IO22        0x1C0
 			>;
 		};
 
@@ -666,12 +667,6 @@
 		pinctrl_pmic: pmicirq {
 			fsl,pins = <
 				MX8MM_IOMUXC_GPIO1_IO03_GPIO1_IO3		0x41
-			>;
-		};
-
-		pinctrl_reg_usdhc2_vmmc: regusdhc2vmmc {
-			fsl,pins = <
-				MX8MM_IOMUXC_SD2_RESET_B_GPIO2_IO19	0x41
 			>;
 		};
 
